@@ -1,5 +1,6 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.UnitService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Unit;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,13 @@ public class UnitController {
         );
     }
 
+    @JsonView(Views.Brief.class)
     @GetMapping("/units")
     Collection<Unit> all(){
         return unitService.readAll();
     }
 
+    @JsonView(Views.All.class)
     @GetMapping("/units/{id}")
     Unit one(@PathVariable int id){
         return unitService.readById(id).orElseThrow(

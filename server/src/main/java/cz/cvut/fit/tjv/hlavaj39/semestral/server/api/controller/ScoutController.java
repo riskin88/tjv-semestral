@@ -1,5 +1,6 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.ScoutService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Scout;
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,13 @@ public class ScoutController {
         );
     }
 
+    @JsonView(Views.All.class)
     @GetMapping("/scouts")
     Collection<Scout> all(){
         return scoutService.readAll();
     }
 
+    @JsonView(Views.All.class)
     @GetMapping("/scouts/{id}")
     Scout one(@PathVariable int id){
         return scoutService.readById(id).orElseThrow(

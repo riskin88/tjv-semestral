@@ -1,5 +1,6 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.TripService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Trip;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,13 @@ public class TripController {
         );
     }
 
+    @JsonView(Views.Brief.class)
     @GetMapping("/trips")
     Collection<Trip> all(){
         return tripService.readAll();
     }
 
+    @JsonView(Views.Brief.class)
     @GetMapping("/trips/{id}")
     Trip one(@PathVariable int id){
         return tripService.readById(id).orElseThrow(

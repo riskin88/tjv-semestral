@@ -1,11 +1,19 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
+import cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller.Views;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Scout {
+    @JsonView(Views.Brief.class)
     private int id;
+    @JsonView(Views.All.class)
     private String name;
+    @JsonView(Views.All.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d.M.yyyy")
     private LocalDate dateOfBirth;
 
     public Scout(int id, String name, LocalDate dateOfBirth) {
