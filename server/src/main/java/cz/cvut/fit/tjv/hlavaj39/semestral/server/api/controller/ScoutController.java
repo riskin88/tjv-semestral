@@ -25,7 +25,7 @@ public class ScoutController {
         );
     }
 
-    @JsonView(Views.All.class)
+    @JsonView(Views.Brief.class)
     @GetMapping("/scouts")
     Collection<Scout> all(){
         return scoutService.readAll();

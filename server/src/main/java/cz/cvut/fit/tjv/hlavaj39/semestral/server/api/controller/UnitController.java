@@ -24,13 +24,11 @@ public class UnitController {
         );
     }
 
-    @JsonView(Views.Brief.class)
     @GetMapping("/units")
     Collection<Unit> all(){
         return unitService.readAll();
     }
 
-    @JsonView(Views.All.class)
     @GetMapping("/units/{id}")
     Unit one(@PathVariable int id){
         return unitService.readById(id).orElseThrow(

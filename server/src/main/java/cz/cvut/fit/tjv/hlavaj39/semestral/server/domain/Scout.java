@@ -15,17 +15,21 @@ public class Scout {
     @JsonView(Views.All.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d.M.yyyy")
     private LocalDate dateOfBirth;
+    @JsonView(Views.All.class)
+    private Unit unit;
 
-    public Scout(int id, String name, LocalDate dateOfBirth) {
+    public Scout(int id, String name, LocalDate dateOfBirth, Unit unit) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
+        this.unit = unit;
     }
 
     public Scout(int id) {
         this.id = id;
         this.name = null;
         this.dateOfBirth = null;
+        this.unit = null;
     }
 
     public int getId() {
@@ -50,6 +54,14 @@ public class Scout {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 
     @Override
