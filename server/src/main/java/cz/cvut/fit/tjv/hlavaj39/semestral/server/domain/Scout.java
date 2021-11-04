@@ -5,23 +5,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller.Views;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
 public class Scout {
     @JsonView(Views.Brief.class)
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     @JsonView(Views.All.class)
+    @Column(nullable = false)
     private String name;
     @JsonView(Views.All.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d.M.yyyy")
     private LocalDate dateOfBirth;
     @JsonView(Views.All.class)
+    @ManyToOne
     private Unit unit;
     @JsonIgnore
+    @ManyToMany
     private Set<Trip> trips;
 
+    public Scout(){
+    }
 
     public Scout(int id, String name, LocalDate dateOfBirth, Unit unit, Set<Trip> trips) {
         this.id = id;

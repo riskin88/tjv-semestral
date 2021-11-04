@@ -1,12 +1,20 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.domain;
 
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
 public class Trip {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String destination;
+    @ManyToMany(mappedBy = "trips")
     private Set<Scout> participants;
+
+    public Trip(){
+    }
 
     public Trip(int id, String destination, Set<Scout> participants) {
         this.id = id;
