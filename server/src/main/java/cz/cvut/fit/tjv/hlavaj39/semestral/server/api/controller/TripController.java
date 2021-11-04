@@ -2,6 +2,7 @@ package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.TripService;
+import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Scout;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Trip;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,17 @@ public class TripController {
                 () -> new ResponseStatusException(
                         HttpStatus.I_AM_A_TEAPOT, "Trip Not Found")
         );
+    }
+
+    @GetMapping("/trips/{id}/scouts")
+    Collection<Scout> allScouts(@PathVariable int id){
+        try {
+            return tripService.readScoutsById(id);
+        }
+        catch(Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.I_AM_A_TEAPOT, "Trip Not Found");
+        }
     }
 
     @PutMapping("/trips/{id}")
