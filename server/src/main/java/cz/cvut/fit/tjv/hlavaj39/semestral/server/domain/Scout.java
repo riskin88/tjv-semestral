@@ -1,11 +1,13 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller.Views;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 public class Scout {
     @JsonView(Views.Brief.class)
@@ -17,12 +19,16 @@ public class Scout {
     private LocalDate dateOfBirth;
     @JsonView(Views.All.class)
     private Unit unit;
+    @JsonIgnore
+    private Set<Trip> trips;
 
-    public Scout(int id, String name, LocalDate dateOfBirth, Unit unit) {
+
+    public Scout(int id, String name, LocalDate dateOfBirth, Unit unit, Set<Trip> trips) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.unit = unit;
+        this.trips = trips;
     }
 
     public Scout(int id) {
@@ -30,6 +36,7 @@ public class Scout {
         this.name = null;
         this.dateOfBirth = null;
         this.unit = null;
+        this.trips = null;
     }
 
     public int getId() {
@@ -62,6 +69,14 @@ public class Scout {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
+    }
+
+    public Set<Trip> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(Set<Trip> trips) {
+        this.trips = trips;
     }
 
     @Override
