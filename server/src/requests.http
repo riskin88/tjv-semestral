@@ -1,0 +1,46 @@
+POST http://localhost:8080/scouts
+Content-Type: application/json
+
+{
+  "name" : "pepicek",
+  "dateOfBirth" : "2021-10-29"
+}
+
+
+###
+GET http://localhost:8080/scouts/
+
+###
+GET http://localhost:8080/scouts/1
+
+###
+PUT http://localhost:8080/scouts/1
+Content-Type: application/json
+
+{
+  "name" : "pepik",
+  "dateOfBirth" : "2021-10-29"
+}
+
+###
+DELETE http://localhost:8080/scouts/1
+
+###
+POST http://localhost:8080/trips
+Content-Type: application/json
+
+{
+  "destination" : "Brno",
+  "participants" : {
+    "id" : 1
+  }
+}
+
+###
+GET http://localhost:8080/trips
+
+###
+GET http://localhost:8080/trips/1
+
+###
+GET http://localhost:8080/trips/1/scouts

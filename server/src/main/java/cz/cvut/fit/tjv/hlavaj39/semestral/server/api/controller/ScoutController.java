@@ -21,7 +21,7 @@ public class ScoutController {
         scoutService.create(scout);
         return scoutService.readById(scout.getId()).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Scout Not Found")
+                        HttpStatus.INTERNAL_SERVER_ERROR, "Scout creation failed")
         );
     }
 
@@ -36,7 +36,7 @@ public class ScoutController {
     Scout one(@PathVariable int id){
         return scoutService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Scout Not Found")
+                        HttpStatus.NOT_FOUND, "Scout Not Found")
         );
     }
 
@@ -44,7 +44,7 @@ public class ScoutController {
     Scout updateScout(@RequestBody Scout scout, @PathVariable int id){
         scoutService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Scout Not Found")
+                        HttpStatus.NOT_FOUND, "Scout Not Found")
         );
         scout.setId(id);
         scoutService.update(scout);
@@ -55,7 +55,7 @@ public class ScoutController {
     void deleteScout(@PathVariable int id){
         scoutService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Scout Not Found")
+                        HttpStatus.NOT_FOUND, "Scout Not Found")
         );
         scoutService.deleteById(id);
     }

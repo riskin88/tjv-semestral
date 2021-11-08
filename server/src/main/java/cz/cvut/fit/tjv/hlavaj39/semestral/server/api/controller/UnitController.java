@@ -1,6 +1,5 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.UnitService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Unit;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ public class UnitController {
         unitService.create(unit);
         return unitService.readById(unit.getNumber()).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Unit Not Found")
+                        HttpStatus.INTERNAL_SERVER_ERROR, "Unit creation failed")
         );
     }
 
@@ -33,7 +32,7 @@ public class UnitController {
     Unit one(@PathVariable int id){
         return unitService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Unit Not Found")
+                        HttpStatus.NOT_FOUND, "Unit Not Found")
         );
     }
 
@@ -41,7 +40,7 @@ public class UnitController {
     Unit updateUnit(@RequestBody Unit unit, @PathVariable int id){
         unitService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Unit Not Found")
+                        HttpStatus.NOT_FOUND, "Unit Not Found")
         );
         unit.setNumber(id);
         unitService.update(unit);
@@ -52,7 +51,7 @@ public class UnitController {
     void deleteUnit(@PathVariable int id){
         unitService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Unit Not Found")
+                        HttpStatus.NOT_FOUND, "Unit Not Found")
         );
         unitService.deleteById(id);
     }

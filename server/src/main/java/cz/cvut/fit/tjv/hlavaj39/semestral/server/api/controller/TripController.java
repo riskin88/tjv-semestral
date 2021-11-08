@@ -21,7 +21,7 @@ public class TripController {
         tripService.create(trip);
         return tripService.readById(trip.getId()).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Trip Not Found")
+                        HttpStatus.INTERNAL_SERVER_ERROR, "Trip creation failed")
         );
     }
 
@@ -36,7 +36,7 @@ public class TripController {
     Trip one(@PathVariable int id){
         return tripService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Trip Not Found")
+                        HttpStatus.NOT_FOUND, "Trip Not Found")
         );
     }
 
@@ -47,7 +47,7 @@ public class TripController {
         }
         catch(Exception e){
             throw new ResponseStatusException(
-                    HttpStatus.I_AM_A_TEAPOT, "Trip Not Found");
+                    HttpStatus.NOT_FOUND, "Trip Not Found");
         }
     }
 
@@ -55,7 +55,7 @@ public class TripController {
     Trip updateTrip(@RequestBody Trip trip, @PathVariable int id){
         tripService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Trip Not Found")
+                        HttpStatus.NOT_FOUND, "Trip Not Found")
         );
         trip.setId(id);
         tripService.update(trip);
@@ -66,7 +66,7 @@ public class TripController {
     void deleteTrip(@PathVariable int id){
         tripService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
-                        HttpStatus.I_AM_A_TEAPOT, "Trip Not Found")
+                        HttpStatus.NOT_FOUND, "Trip Not Found")
         );
         tripService.deleteById(id);
     }
