@@ -1,5 +1,7 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -10,29 +12,30 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String destination;
+   @JsonIgnore
     @ManyToMany(mappedBy = "trips")
     private Set<Scout> participants;
 
     public Trip(){
     }
 
-    public Trip(int id, String destination, Set<Scout> participants) {
+    public Trip(Integer id, String destination, Set<Scout> participants) {
         this.id = id;
         this.destination = destination;
         this.participants = participants;
     }
 
-    public Trip(int id) {
+    public Trip(Integer id) {
         this.id = id;
         this.destination = null;
         this.participants = null;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -57,7 +60,7 @@ public class Trip {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Trip trip = (Trip) o;
-        return id == trip.id;
+        return Objects.equals(id, trip.id);
     }
 
     @Override

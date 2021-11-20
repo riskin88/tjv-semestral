@@ -1,5 +1,7 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -12,30 +14,31 @@ public class Unit {
     private Integer number;
     private String name;
     private String location;
+    @JsonIgnore
     @OneToMany(mappedBy = "unit")
     private Set<Scout> members;
 
     public Unit(){
     }
 
-    public Unit(int number, String name, String location, Set<Scout> members) {
+    public Unit(Integer number, String name, String location, Set<Scout> members) {
         this.number = number;
         this.name = name;
         this.location = location;
         this.members = members;
     }
 
-    public Unit(int number) {
+    public Unit(Integer number) {
         this.number = number;
         this.name = null;
         this.location = null;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -68,11 +71,12 @@ public class Unit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Unit unit = (Unit) o;
-        return number == unit.number;
+        return Objects.equals(number, unit.number);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(number);
     }
+
 }

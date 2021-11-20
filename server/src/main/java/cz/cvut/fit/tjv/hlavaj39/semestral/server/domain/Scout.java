@@ -1,7 +1,6 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller.Views;
 
@@ -16,23 +15,21 @@ public class Scout {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @JsonView(Views.All.class)
+    @JsonView(Views.Brief.class)
     @Column(nullable = false)
     private String name;
-    @JsonView(Views.All.class)
+    @JsonView(Views.Brief.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d.M.yyyy")
     private LocalDate dateOfBirth;
-    @JsonView(Views.All.class)
     @ManyToOne
     private Unit unit;
-    @JsonIgnore
     @ManyToMany
     private Set<Trip> trips;
 
     public Scout(){
     }
 
-    public Scout(int id, String name, LocalDate dateOfBirth, Unit unit, Set<Trip> trips) {
+    public Scout(Integer id, String name, LocalDate dateOfBirth, Unit unit, Set<Trip> trips) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -40,7 +37,7 @@ public class Scout {
         this.trips = trips;
     }
 
-    public Scout(int id) {
+    public Scout(Integer id) {
         this.id = id;
         this.name = null;
         this.dateOfBirth = null;
@@ -48,11 +45,11 @@ public class Scout {
         this.trips = null;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -93,7 +90,7 @@ public class Scout {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Scout scout = (Scout) o;
-        return id == scout.id;
+        return Objects.equals(id, scout.id);
     }
 
     @Override
