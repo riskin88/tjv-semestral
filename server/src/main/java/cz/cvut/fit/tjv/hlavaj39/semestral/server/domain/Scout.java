@@ -97,4 +97,11 @@ public class Scout {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public void addTrip(Trip trip) {
+        trips.add(trip);
+    }
+    public void removeTrip(Trip trip) {
+        trips.remove(trip);
+    }
 }

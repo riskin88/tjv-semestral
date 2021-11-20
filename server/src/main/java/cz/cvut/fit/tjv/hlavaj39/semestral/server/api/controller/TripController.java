@@ -1,6 +1,5 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.TripService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Scout;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Trip;
@@ -18,6 +17,12 @@ public class TripController {
 
     @PostMapping("/trips")
     Trip newTrip (@RequestBody Trip trip){
+        if (trip.getId() != null)
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Cannot choose ID");
+        if (trip.getParticipants() != null)
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Forced participants");
         tripService.create(trip);
         return tripService.readById(trip.getId()).orElseThrow(
                 () -> new ResponseStatusException(
@@ -25,13 +30,11 @@ public class TripController {
         );
     }
 
-    @JsonView(Views.Brief.class)
     @GetMapping("/trips")
     Collection<Trip> all(){
         return tripService.readAll();
     }
 
-    @JsonView(Views.Brief.class)
     @GetMapping("/trips/{id}")
     Trip one(@PathVariable int id){
         return tripService.readById(id).orElseThrow(
@@ -41,14 +44,11 @@ public class TripController {
     }
 
     @GetMapping("/trips/{id}/scouts")
-    Collection<Scout> allScouts(@PathVariable int id){
-        try {
-            return tripService.readScoutsById(id);
-        }
-        catch(Exception e){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Trip Not Found");
-        }
+    Collection<Scout> members(@PathVariable int id){
+        tripService.readById(id).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Trip Not Found"));
+        return tripService.readScoutsById(id);
     }
 
     @PutMapping("/trips/{id}")
@@ -57,6 +57,10 @@ public class TripController {
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Trip Not Found")
         );
+        if (trip.getId() != null || trip.getParticipants() != null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Forced ID or participants");
+        }
         trip.setId(id);
         tripService.update(trip);
         return trip;

@@ -4,6 +4,4 @@ public class Views {
     public static class Brief {
     }
 
-    public static class All extends Brief {
-    }
 }
