@@ -2,28 +2,77 @@ POST http://localhost:8080/scouts
 Content-Type: application/json
 
 {
-  "name" : "pepicek",
-  "dateOfBirth" : "2021-10-29"
+  "name" : "jenicek",
+  "dateOfBirth" : "1.1.2000",
+  "unit" : {"number" :  98}
 }
 
+###
+GET http://localhost:8080/scouts
 
 ###
-GET http://localhost:8080/scouts/
+GET http://localhost:8080/scouts/17
 
 ###
-GET http://localhost:8080/scouts/1
-
-###
-PUT http://localhost:8080/scouts/1
+PUT http://localhost:8080/scouts/3/unit
 Content-Type: application/json
 
 {
-  "name" : "pepik",
-  "dateOfBirth" : "2021-10-29"
+  "number" : 97
+}
+
+
+###
+GET http://localhost:8080/units/98/scouts
+
+###
+DELETE http://localhost:8080/scouts/3/unit
+
+###
+PUT http://localhost:8080/scouts/8
+Content-Type: application/json
+
+{
+  "name" : "jenik",
+  "trips" : [{"id" :  1}]
 }
 
 ###
-DELETE http://localhost:8080/scouts/1
+DELETE http://localhost:8080/scouts/18
+
+###
+POST http://localhost:8080/units
+Content-Type: application/json
+
+{
+  "number" : 97
+}
+
+###
+POST http://localhost:8080/units/97/scouts
+Content-Type: application/json
+
+{
+  "id" : 3,
+  "name" : "pepicek"
+}
+
+###
+GET http://localhost:8080/units
+
+###
+GET http://localhost:8080/units/97
+
+###
+GET http://localhost:8080/units/by?location=praha
+
+###
+PUT http://localhost:8080/units/97
+Content-Type: application/json
+
+{
+  "location" : "praha"
+}
 
 ###
 POST http://localhost:8080/trips
@@ -31,16 +80,26 @@ Content-Type: application/json
 
 {
   "destination" : "Brno",
-  "participants" : {
+  "participants" : [{
     "id" : 1
-  }
+  }]
 }
 
 ###
 GET http://localhost:8080/trips
 
 ###
-GET http://localhost:8080/trips/1
+GET http://localhost:8080/trips/19/scouts/
 
 ###
-GET http://localhost:8080/trips/1/scouts
+GET http://localhost:8080/trips/19
+
+###
+POST http://localhost:8080/scouts/18/trips
+Content-Type: application/json
+
+{
+  "id" : 19
+}
+###
+DELETE http://localhost:8080/scouts/18/trips/19
