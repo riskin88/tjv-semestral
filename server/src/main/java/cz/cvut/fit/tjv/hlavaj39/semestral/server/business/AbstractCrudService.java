@@ -14,10 +14,10 @@ public abstract class AbstractCrudService<K, E> {
     }
 
 
-    public void create(E entity) throws EntityStateException {
+    public E create(E entity) throws EntityStateException {
         if (exists(entity))
             throw new EntityStateException(entity);
-        repository.save(entity);
+        return repository.save(entity);
     }
 
     public abstract boolean exists(E entity);
@@ -31,9 +31,9 @@ public abstract class AbstractCrudService<K, E> {
         return repository.findAll();
     }
 
-    public void update(E entity) throws EntityStateException {
+    public E update(E entity) throws EntityStateException {
         if (exists(entity))
-            repository.save(entity);
+            return repository.save(entity);
         else
             throw new EntityStateException(entity);
     }

@@ -1,5 +1,6 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
+import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.EntityStateException;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.UnitService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Scout;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Unit;
@@ -20,11 +21,13 @@ public class UnitController {
         if (unit.getMembers() != null)
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Forced members");
-        unitService.create(unit);
-        return unitService.readById(unit.getNumber()).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.INTERNAL_SERVER_ERROR, "Unit creation failed")
-        );
+        try{
+            return unitService.create(unit);
+        }
+        catch (EntityStateException e){
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Unit already exists");
+        }
     }
 
     @GetMapping("/units")
@@ -63,8 +66,7 @@ public class UnitController {
                         HttpStatus.NOT_FOUND, "Unit Not Found")
         );
         unit.setNumber(id);
-        unitService.update(unit);
-        return unit;
+        return unitService.update(unit);
     }
 
     @DeleteMapping("units/{id}")

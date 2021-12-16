@@ -1,5 +1,6 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
+import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.EntityStateException;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.TripService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Scout;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Trip;
@@ -23,11 +24,13 @@ public class TripController {
         if (trip.getParticipants() != null)
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Forced participants");
-        tripService.create(trip);
-        return tripService.readById(trip.getId()).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.INTERNAL_SERVER_ERROR, "Trip creation failed")
-        );
+        try{
+            return tripService.create(trip);
+        }
+        catch (EntityStateException e){
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Trip creation failed");
+        }
     }
 
     @GetMapping("/trips")
@@ -44,7 +47,7 @@ public class TripController {
     }
 
     @GetMapping("/trips/{id}/scouts")
-    Collection<Scout> members(@PathVariable int id){
+    Collection<Scout> participants(@PathVariable int id){
         tripService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Trip Not Found"));
@@ -62,8 +65,7 @@ public class TripController {
                     HttpStatus.BAD_REQUEST, "Forced ID or participants");
         }
         trip.setId(id);
-        tripService.update(trip);
-        return trip;
+        return tripService.update(trip);
     }
 
     @DeleteMapping("trips/{id}")

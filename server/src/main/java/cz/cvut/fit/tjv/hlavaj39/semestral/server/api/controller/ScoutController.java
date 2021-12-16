@@ -1,6 +1,7 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.EntityStateException;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.ScoutService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.TripService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.UnitService;
@@ -28,14 +29,16 @@ public class ScoutController {
 
     @PostMapping("/scouts")
     public Scout newScout (@RequestBody Scout scout){
-        if (scout.getId() != null || !unitService.exists(scout.getUnit()) || scout.getTrips() != null)
+        if (scout.getId() != null || (scout.getUnit() != null && !unitService.exists(scout.getUnit())) || scout.getTrips() != null)
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Forced ID, trip or non-existent unit");
-        scoutService.create(scout);
-        return scoutService.readById(scout.getId()).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.INTERNAL_SERVER_ERROR, "Scout creation failed")
-        );
+       try{
+           return scoutService.create(scout);
+       }
+       catch (EntityStateException e){
+           throw new ResponseStatusException(
+                   HttpStatus.INTERNAL_SERVER_ERROR, "Scout creation failed");
+       }
     }
 
     @JsonView(Views.Brief.class)
@@ -62,8 +65,7 @@ public class ScoutController {
                         HttpStatus.NOT_FOUND, "Scout Not Found")
         );
         scout.setId(id);
-        scoutService.update(scout);
-        return scout;
+        return scoutService.update(scout);
     }
 
     @DeleteMapping("scouts/{id}")
@@ -87,8 +89,7 @@ public class ScoutController {
                     HttpStatus.NOT_FOUND, "Unit Not Found");
         }
         scout.setUnit(unit);
-        scoutService.update(scout);
-        return scout;
+        return scoutService.update(scout);
     }
 
     @DeleteMapping("/scouts/{id}/unit")
@@ -98,8 +99,7 @@ public class ScoutController {
                         HttpStatus.NOT_FOUND, "Scout Not Found")
         );
         scout.setUnit(null);
-        scoutService.update(scout);
-        return scout;
+        return scoutService.update(scout);
     }
 
     // Trip methods
@@ -122,8 +122,7 @@ public class ScoutController {
                     HttpStatus.NOT_FOUND, "Trip Not Found");
         }
         scout.addTrip(trip);
-        scoutService.update(scout);
-        return scout;
+        return scoutService.update(scout);
     }
 
     @DeleteMapping("/scouts/{id}/trips/{id_trip}")
@@ -135,8 +134,7 @@ public class ScoutController {
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Trip Not Found"));
         scout.removeTrip(trip);
-        scoutService.update(scout);
-        return scout;
+        return scoutService.update(scout);
     }
 
 }
