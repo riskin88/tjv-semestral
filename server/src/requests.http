@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "name" : "jenicek",
-  "dateOfBirth" : "1.1.2000",
+  "dateOfBirth" : "4.11.2000",
   "unit" : {"number" :  98}
 }
 
@@ -11,14 +11,14 @@ Content-Type: application/json
 GET http://localhost:8080/scouts
 
 ###
-GET http://localhost:8080/scouts/17
+GET http://localhost:8080/scouts/20
 
 ###
-PUT http://localhost:8080/scouts/3/unit
+PUT http://localhost:8080/scouts/20/unit
 Content-Type: application/json
 
 {
-  "number" : 97
+  "number" : 98
 }
 
 
