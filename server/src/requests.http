@@ -3,8 +3,7 @@ Content-Type: application/json
 
 {
   "name" : "jenicek",
-  "dateOfBirth" : "4.11.2000",
-  "unit" : {"number" :  98}
+  "dateOfBirth" : "4.11.2000"
 }
 
 ###
