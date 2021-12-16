@@ -1,0 +1,10 @@
+image: gradle:openjdk:11
+
+stages:
+    - build
+
+build:
+    stage: build
+    script:
+        - cd server/
+        - ./gradlew build
