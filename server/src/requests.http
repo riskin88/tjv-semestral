@@ -2,42 +2,24 @@ POST http://localhost:8080/scouts
 Content-Type: application/json
 
 {
-  "name" : "jenicek",
+  "name" : "pepicek",
   "dateOfBirth" : "4.11.2000"
+}
+
+###
+PUT http://localhost:8080/scouts/1
+Content-Type: application/json
+
+{
+  "name" : "jenik"
 }
 
 ###
 GET http://localhost:8080/scouts
 
 ###
-GET http://localhost:8080/scouts/20
+GET http://localhost:8080/scouts/1
 
-###
-PUT http://localhost:8080/scouts/20/unit
-Content-Type: application/json
-
-{
-  "number" : 98
-}
-
-
-###
-GET http://localhost:8080/units/98/scouts
-
-###
-DELETE http://localhost:8080/scouts/3/unit
-
-###
-PUT http://localhost:8080/scouts/8
-Content-Type: application/json
-
-{
-  "name" : "jenik",
-  "trips" : [{"id" :  1}]
-}
-
-###
-DELETE http://localhost:8080/scouts/18
 
 ###
 POST http://localhost:8080/units
@@ -47,23 +29,21 @@ Content-Type: application/json
   "number" : 97
 }
 
-###
-POST http://localhost:8080/units/97/scouts
-Content-Type: application/json
-
-{
-  "id" : 3,
-  "name" : "pepicek"
-}
 
 ###
 GET http://localhost:8080/units
 
-###
-GET http://localhost:8080/units/97
 
 ###
-GET http://localhost:8080/units/by?location=praha
+PUT http://localhost:8080/scouts/1/unit
+Content-Type: application/json
+
+{
+  "number" : 97
+}
+
+###
+GET http://localhost:8080/units/97/scouts
 
 ###
 PUT http://localhost:8080/units/97
@@ -74,31 +54,63 @@ Content-Type: application/json
 }
 
 ###
+GET http://localhost:8080/units/by?location=praha
+
+###
+DELETE http://localhost:8080/scouts/1/unit
+
+###
+GET http://localhost:8080/units/97/scouts
+
+###
 POST http://localhost:8080/trips
 Content-Type: application/json
 
 {
-  "destination" : "Brno",
-  "participants" : [{
-    "id" : 1
-  }]
+  "destination" : "Brno"
+}
+
+###
+POST http://localhost:8080/trips
+Content-Type: application/json
+
+{
+  "destination" : "Pragl"
 }
 
 ###
 GET http://localhost:8080/trips
 
 ###
-GET http://localhost:8080/trips/19/scouts/
+GET http://localhost:8080/trips/2
 
 ###
-GET http://localhost:8080/trips/19
-
-###
-POST http://localhost:8080/scouts/18/trips
+POST http://localhost:8080/scouts/1/trips
 Content-Type: application/json
 
 {
-  "id" : 19
+  "id" : 2
 }
+
 ###
-DELETE http://localhost:8080/scouts/18/trips/19
+POST http://localhost:8080/scouts/1/trips
+Content-Type: application/json
+
+{
+  "id" : 3
+}
+
+###
+GET http://localhost:8080/trips/2/scouts/
+
+###
+DELETE http://localhost:8080/scouts/1/trips/2
+
+###
+GET http://localhost:8080/trips/2/scouts
+
+###
+GET http://localhost:8080/scout/1
+
+###
+DELETE http://localhost:8080/trips/2
