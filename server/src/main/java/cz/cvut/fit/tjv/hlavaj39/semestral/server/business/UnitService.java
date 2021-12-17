@@ -12,10 +12,13 @@ import java.util.Optional;
 @Component
 public class UnitService extends AbstractCrudService<Integer, Unit>{
     private final UnitJpaRepository unitFileRepository;
-    public UnitService(UnitJpaRepository unitFileRepository) {
+    public UnitService(UnitJpaRepository unitFileRepository, ScoutService scoutService) {
         super(unitFileRepository);
         this.unitFileRepository = unitFileRepository;
+        this.scoutService = scoutService;
     }
+
+    private final ScoutService scoutService;
 
     @Override
     public boolean exists(Unit entity) {
@@ -23,6 +26,21 @@ public class UnitService extends AbstractCrudService<Integer, Unit>{
         if (id.isEmpty())
             return false;
         return repository.existsById(id.get());
+    }
+
+    @Override
+    public void deleteById(Integer id){
+        Optional<Unit> unit = readById(id);
+        Collection<Scout> members;
+        if (unit.isPresent()) {
+            members = unit.get().getMembers();
+            for (Scout scout:
+                    members) {
+                scout.setUnit(null);
+                scoutService.update(scout);
+            }
+        }
+        repository.deleteById(id);
     }
 
     public Collection<Scout> readScoutsById(Integer id){

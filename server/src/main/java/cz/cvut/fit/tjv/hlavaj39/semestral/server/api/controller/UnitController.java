@@ -1,5 +1,6 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.EntityStateException;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.UnitService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Scout;
@@ -18,9 +19,6 @@ public class UnitController {
 
     @PostMapping("/units")
     Unit newUnit (@RequestBody Unit unit){
-        if (unit.getMembers() != null)
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Forced members");
         try{
             return unitService.create(unit);
         }
@@ -48,6 +46,7 @@ public class UnitController {
         );
     }
 
+    @JsonView(Views.Brief.class)
     @GetMapping("/units/{id}/scouts")
     Collection<Scout> members(@PathVariable int id){
         unitService.readById(id).orElseThrow(
@@ -58,9 +57,9 @@ public class UnitController {
 
     @PutMapping("/units/{id}")
     Unit updateUnit(@RequestBody Unit unit, @PathVariable int id){
-        if (unit.getNumber() != null || unit.getMembers() != null)
+        if (unit.getNumber() != null)
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Forced ID or members");
+                    HttpStatus.BAD_REQUEST, "Forced ID");
         unitService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Unit Not Found")
@@ -69,12 +68,9 @@ public class UnitController {
         return unitService.update(unit);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("units/{id}")
     void deleteUnit(@PathVariable int id){
-        unitService.readById(id).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Unit Not Found")
-        );
         unitService.deleteById(id);
     }
 }

@@ -11,9 +11,12 @@ import java.util.Optional;
 
 @Component
 public class TripService extends AbstractCrudService<Integer, Trip>{
-    public TripService(TripJpaRepository tripFileRepository) {
+    public TripService(TripJpaRepository tripFileRepository, ScoutService scoutService) {
         super(tripFileRepository);
+        this.scoutService = scoutService;
     }
+
+    private final ScoutService scoutService;
 
     @Override
     public boolean exists(Trip entity) {
@@ -23,6 +26,21 @@ public class TripService extends AbstractCrudService<Integer, Trip>{
         return repository.existsById(id.get());
     }
 
+    @Override
+    public void deleteById(Integer id){
+        Optional<Trip> trip = readById(id);
+        Collection<Scout> participants;
+        if (trip.isPresent()) {
+            participants = trip.get().getParticipants();
+            for (Scout scout:
+                 participants) {
+                scout.removeTrip(trip.get());
+                scoutService.update(scout);
+            }
+        }
+        repository.deleteById(id);
+    }
+
     public Collection<Scout> readScoutsById(Integer id){
         Optional<Trip> trip = readById(id);
         if (trip.isPresent()){
@@ -30,4 +48,6 @@ public class TripService extends AbstractCrudService<Integer, Trip>{
         }
         return Collections.emptySet();
     }
+
+
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 public class ScoutController {
@@ -68,12 +69,9 @@ public class ScoutController {
         return scoutService.update(scout);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("scouts/{id}")
     void deleteScout(@PathVariable Integer id){
-        scoutService.readById(id).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Scout Not Found")
-        );
         scoutService.deleteById(id);
     }
 
@@ -130,10 +128,8 @@ public class ScoutController {
         Scout scout = scoutService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Scout Not Found"));
-        Trip trip = tripService.readById(id_trip).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Trip Not Found"));
-        scout.removeTrip(trip);
+        Optional<Trip> trip = tripService.readById(id_trip);
+        if(trip.isPresent()) scout.removeTrip(trip.get());
         return scoutService.update(scout);
     }
 

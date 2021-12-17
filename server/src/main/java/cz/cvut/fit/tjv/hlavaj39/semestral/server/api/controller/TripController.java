@@ -1,5 +1,6 @@
 package cz.cvut.fit.tjv.hlavaj39.semestral.server.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.EntityStateException;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.business.TripService;
 import cz.cvut.fit.tjv.hlavaj39.semestral.server.domain.Scout;
@@ -21,9 +22,6 @@ public class TripController {
         if (trip.getId() != null)
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Cannot choose ID");
-        if (trip.getParticipants() != null)
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Forced participants");
         try{
             return tripService.create(trip);
         }
@@ -46,6 +44,7 @@ public class TripController {
         );
     }
 
+    @JsonView(Views.Brief.class)
     @GetMapping("/trips/{id}/scouts")
     Collection<Scout> participants(@PathVariable int id){
         tripService.readById(id).orElseThrow(
@@ -60,20 +59,17 @@ public class TripController {
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Trip Not Found")
         );
-        if (trip.getId() != null || trip.getParticipants() != null) {
+        if (trip.getId() != null) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Forced ID or participants");
+                    HttpStatus.BAD_REQUEST, "Forced ID");
         }
         trip.setId(id);
         return tripService.update(trip);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("trips/{id}")
     void deleteTrip(@PathVariable int id){
-        tripService.readById(id).orElseThrow(
-                () -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Trip Not Found")
-        );
         tripService.deleteById(id);
     }
 }
