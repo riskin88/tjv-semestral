@@ -83,11 +83,10 @@ public class ScoutControllerTest {
         Mockito.when(scoutService.readById(0)).thenReturn(Optional.of(scout));
 
         mockMvc.perform(delete("/scouts/1"))
-                .andExpect(status().isNotFound());
-        verify(scoutService, never()).deleteById(any());
+                .andExpect(status().isNoContent());
 
         mockMvc.perform(delete("/scouts/0"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         verify(scoutService, times(1)).deleteById(0);
     }
 

@@ -75,11 +75,10 @@ public class TripControllerTest {
         Mockito.when(tripService.readById(0)).thenReturn(Optional.of(trip));
 
         mockMvc.perform(delete("/trips/1"))
-                .andExpect(status().isNotFound());
-        verify(tripService, never()).deleteById(any());
+                .andExpect(status().isNoContent());
 
         mockMvc.perform(delete("/trips/0"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         verify(tripService, times(1)).deleteById(0);
     }
 

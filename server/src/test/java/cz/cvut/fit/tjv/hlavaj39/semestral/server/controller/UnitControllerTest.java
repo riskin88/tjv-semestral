@@ -90,11 +90,10 @@ public class UnitControllerTest {
         Mockito.when(unitService.readById(0)).thenReturn(Optional.of(unit));
 
         mockMvc.perform(delete("/units/1"))
-                .andExpect(status().isNotFound());
-        verify(unitService, never()).deleteById(any());
+                .andExpect(status().isNoContent());
 
         mockMvc.perform(delete("/units/0"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         verify(unitService, times(1)).deleteById(0);
     }
 
