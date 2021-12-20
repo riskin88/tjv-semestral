@@ -117,18 +117,6 @@ public class TripControllerTest {
     }
 
     @Test
-    public void testUpdateTripForcedID() throws Exception {
-        Trip trip = new Trip(0);
-        trip.setDestination("Brno");
-        Mockito.when(tripService.readById(0)).thenReturn(Optional.of(trip));
-
-        mockMvc.perform(put("/trips/0")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":0,\"destination\":\"Brno\"}"))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     public void testUpdateTrip() throws Exception {
         Trip trip = new Trip(0);
         trip.setDestination("Pragl");

@@ -103,7 +103,7 @@ public class UnitControllerTest {
 
         mockMvc.perform(post("/units")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":\"0\"}"))
+                        .content("{\"number\":0}"))
                 .andExpect(status().isConflict());
     }
 

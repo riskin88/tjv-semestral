@@ -125,18 +125,6 @@ public class ScoutControllerTest {
     }
 
     @Test
-    public void testUpdateScoutForcedID() throws Exception {
-        Scout scout = new Scout(0);
-        scout.setName("pepicek");
-        Mockito.when(scoutService.readById(0)).thenReturn(Optional.of(scout));
-
-        mockMvc.perform(put("/scouts/0")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":0,\"name\":\"pepicek\"}"))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     public void testUpdateScout() throws Exception {
         Scout scout = new Scout(0);
         scout.setName("jenicek");
