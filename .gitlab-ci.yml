@@ -3,8 +3,14 @@ image: gradle:7-jdk11-alpine
 stages:
     - build
 
-build:
+build-server:
     stage: build
     script:
         - cd server/
+        - ./gradlew build
+        
+build-client:
+    stage: build
+    script:
+        - cd client/
         - ./gradlew build
