@@ -58,9 +58,9 @@ public class ScoutController {
 
     @PutMapping("/scouts/{id}")
     Scout updateScout(@RequestBody Scout scout, @PathVariable Integer id){
-        if (scout.getId() != null || scout.getUnit() != null || scout.getTrips() != null)
+        if (scout.getUnit() != null || scout.getTrips() != null)
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Forced ID, trip or unit");
+                    HttpStatus.BAD_REQUEST, "Forced trip or unit");
         scoutService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Scout Not Found")

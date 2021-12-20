@@ -39,6 +39,7 @@ public abstract class AbstractCrudService<K, E> {
     }
 
     public void deleteById(K id) {
-        repository.deleteById(id);
+        if (readById(id).isPresent())
+            repository.deleteById(id);
     }
 }

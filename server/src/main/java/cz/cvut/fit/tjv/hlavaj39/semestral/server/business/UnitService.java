@@ -40,7 +40,7 @@ public class UnitService extends AbstractCrudService<Integer, Unit>{
                 scoutService.update(scout);
             }
         }
-        repository.deleteById(id);
+        super.deleteById(id);
     }
 
     public Collection<Scout> readScoutsById(Integer id){

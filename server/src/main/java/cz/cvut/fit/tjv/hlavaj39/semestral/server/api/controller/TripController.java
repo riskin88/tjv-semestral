@@ -59,10 +59,6 @@ public class TripController {
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Trip Not Found")
         );
-        if (trip.getId() != null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Forced ID");
-        }
         trip.setId(id);
         return tripService.update(trip);
     }

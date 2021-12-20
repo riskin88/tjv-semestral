@@ -38,7 +38,7 @@ public class TripService extends AbstractCrudService<Integer, Trip>{
                 scoutService.update(scout);
             }
         }
-        repository.deleteById(id);
+        super.deleteById(id);
     }
 
     public Collection<Scout> readScoutsById(Integer id){

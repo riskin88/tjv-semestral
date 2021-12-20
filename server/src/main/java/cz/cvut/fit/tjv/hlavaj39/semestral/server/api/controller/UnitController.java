@@ -19,6 +19,9 @@ public class UnitController {
 
     @PostMapping("/units")
     Unit newUnit (@RequestBody Unit unit){
+        if (unit.getNumber() == null)
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Missing ID");
         try{
             return unitService.create(unit);
         }
@@ -57,9 +60,6 @@ public class UnitController {
 
     @PutMapping("/units/{id}")
     Unit updateUnit(@RequestBody Unit unit, @PathVariable int id){
-        if (unit.getNumber() != null)
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Forced ID");
         unitService.readById(id).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Unit Not Found")
