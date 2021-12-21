@@ -42,12 +42,11 @@ public class UnitClient {
                 .bodyToFlux(UnitWebModel.class);
     }
 
-    public void delete(Integer number) {
-        unitWebClient.delete()
+    public Mono<Void> delete(Integer number) {
+        return unitWebClient.delete()
                 .uri(ONE_URI, number)
                 .retrieve()
-                .bodyToMono(Void.TYPE)
-                .subscribe();
+                .bodyToMono(Void.TYPE);
     }
 
     public Mono<UnitWebModel> readById(Integer number) {

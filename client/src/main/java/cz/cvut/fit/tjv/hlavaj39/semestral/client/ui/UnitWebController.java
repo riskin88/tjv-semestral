@@ -63,8 +63,9 @@ public class UnitWebController {
 
     @GetMapping("/delete")
     public String addUnit(@RequestParam Integer number, Model model) {
-        unitClient.delete(number);
-        model.addAttribute("units", unitClient.readAll());
-        return "units";
+        model.addAttribute("", unitClient.delete(number));
+        return "redirect:/units";
     }
+
+
 }
