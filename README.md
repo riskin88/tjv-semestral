@@ -1,3 +1,5 @@
+Simple server-client application about scouts units. Backend incl. REST API in Java and Spring Boot, frontend in Java and Thymeleaf.
+
 # How to run
 ## Server
  - Start postgreSQL database named *tjv_semestral* on *localhost:5432* with following user settings:
